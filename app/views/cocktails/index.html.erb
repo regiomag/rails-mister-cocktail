@@ -1,5 +1,12 @@
 <div class="container">
   <div class="row">
+    <div class="col-xs-6 col-sm-offset-3">
+    <%= link_to "Create a cocktail", new_cocktail_path, {class: "btn btn-primary btn-block"} %>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
     <% @cocktails.each do |cocktail| %>
       <div class="col-xs-12 col-sm-3">
         <div class="card">

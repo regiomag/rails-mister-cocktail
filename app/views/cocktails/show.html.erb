@@ -1,7 +1,7 @@
 <div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('http://www.unsplash.it/900x600');">
   <div class="banner-content">
     <h1><%= @cocktail.name%></h1>
-    <% @doses.each do |dose| %>
+    <% @cocktail.doses.each do |dose| %>
       <ul>
         <li>
           <p>
@@ -16,14 +16,20 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-      <%= simple_form_for [@cocktail, @dose] do |f|%>
+      <%= simple_form_for [@cocktail, @dose] do |f| %>
+        <% if @dose.errors.any? %>
+          <ul>
+          <% @dose.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        <% end %>
 
-      <%= f.input :description, label: "Enter a quatity", placeholder: "a spoon of" %>
-      <%= f.input :ingredient_id, collection: Indgredient.all, prompt: "choose an ingredient" %>
+        <%= f.input :description, placeholder: "2 teaspoons" %>
+        <%= f.input :ingredient_id, collection: Ingredient.all, prompt: "Choose one" %>
+
+        <%= f.submit "Add dose", class: "btn btn-primary"%>
+      <% end %>
     </div>
   </div>
 </div>
-
-<!-- map {|i| i.name.capitalize} -->
-
-    <a class="btn btn-primary btn-lg">Add an ingredient</a>

@@ -7,7 +7,8 @@ class CocktailsController < ApplicationController
 
   def show
     # @ingredients = @cocktail.ingredients
-    @doses = @cocktail.doses
+    @cocktail = Cocktail.find(params[:id])
+    @dose = Dose.new
   end
 
   def new
@@ -15,8 +16,12 @@ class CocktailsController < ApplicationController
   end
 
   def create
-    Cocktail.create(cocktail_params)
-    redirect_to cocktails_path
+    @cocktail = Cocktail.new(cocktail_params)
+    if @cocktail.save
+      redirect_to cocktail_path(@cocktail)
+    else
+      render :new
+    end
   end
 
   def add_doses_to_cocktail
@@ -30,7 +35,7 @@ class CocktailsController < ApplicationController
   private
   # To filter hacking forms
   def cocktail_params
-    params.require(:cocktail).permit(:name, :address, :rating)
+    params.require(:cocktail).permit(:name)
   end
   def set_cocktail
     @cocktail = Cocktail.find(params[:id])
